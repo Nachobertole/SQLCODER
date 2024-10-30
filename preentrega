@@ -1,0 +1,169 @@
+
+DROP DATABASE IF EXISTS DISTRIBUIDORA;
+CREATE DATABASE DISTRIBUIDORA;
+USE DISTRIBUIDORA; 
+
+-- TABLAS SIN FK
+CREATE TABLE  proveedores(
+id_proveedores INT NOT NULL AUTO_INCREMENT, 
+nombre_pr VARCHAR(200),
+direccion_pr VARCHAR(200),
+documento_identidad_pr VARCHAR(20),
+email_pr VARCHAR(200) UNIQUE,   
+PRIMARY KEY(id_proveedores)
+);
+
+CREATE TABLE formas_de_pago (
+    id_formas_pago INT NOT NULL AUTO_INCREMENT,
+    formas_de_pago ENUM('CONTADO', 'CUENTA CORRIENTE', 'FINANCIADO'),
+	PRIMARY KEY (id_formas_pago)
+);
+CREATE TABLE tipos_venta (
+    id_tipos_venta INT NOT NULL AUTO_INCREMENT,
+    tipos_venta ENUM('PRESENCIAL', 'CONTACTOS COMERCIALES'),
+    PRIMARY KEY(id_tipos_venta)
+);
+CREATE TABLE agentes_comerciales (
+    id_comercial INT NOT NULL AUTO_INCREMENT,
+    nombre_comercial VARCHAR(200),
+    zona_asignada VARCHAR(200),
+    PRIMARY KEY (id_comercial)
+);
+CREATE TABLE productos (
+    id_producto INT NOT NULL AUTO_INCREMENT,
+    nombre_producto VARCHAR(200),
+    detalle_producto VARCHAR(200),
+    cantidad_stock INT,
+    PRIMARY KEY(id_producto)
+);
+CREATE TABLE  clientes(
+id_cliente INT NOT NULL AUTO_INCREMENT,
+nombre_cliente VARCHAR(200),
+direccion VARCHAR(200),
+documento_identidad VARCHAR(200),
+email VARCHAR(200) UNIQUE,
+PRIMARY KEY(id_cliente)
+);
+CREATE TABLE  envio_productos(
+id_envio INT NOT NULL AUTO_INCREMENT,
+transporte VARCHAR(200),
+codigo_seguimiento VARCHAR(200),
+fecha_envio DATE,
+fecha_entrega DATE,
+PRIMARY KEY (id_envio)
+);	
+
+-- TABLAS CON FK
+CREATE TABLE compras(
+id_compra INT NOT NULL AUTO_INCREMENT,
+id_proveedores INT,
+fecha_compra DATE,
+preciototal_compra DECIMAL(10,2),
+detalle_compra VARCHAR(200),
+PRIMARY KEY (id_compra)
+);
+
+CREATE TABLE  ventas(
+id_venta INT NOT NULL AUTO_INCREMENT,
+fecha_venta DATE,
+id_comercial INT,
+id_tipos_venta INT,
+id_envio INT,
+id_formas_pago INT,
+id_cliente INT,
+PRIMARY KEY (id_venta)
+);
+CREATE TABLE detalle_ventas (
+    id_detalle_venta INT NOT NULL AUTO_INCREMENT,
+    id_producto INT,
+    id_venta INT,
+    cantidad_venta INT,
+    precio_unitario DECIMAL(20 , 2),
+    PRIMARY KEY (id_detalle_venta)
+);
+CREATE TABLE detalle_compras (
+    id_detalle_compra INT NOT NULL AUTO_INCREMENT,
+    id_producto INT,
+    id_compra INT,
+    cantidad_compra INT,
+    precio_unitario DECIMAL(20 , 2 ),
+	PRIMARY KEY(id_detalle_compra)
+);
+CREATE TABLE servicio_postventa (
+    id_reclamo INT NOT NULL AUTO_INCREMENT,
+    detalle_reclamo VARCHAR(200),
+    resolucion_reclamo VARCHAR(200),
+    id_producto INT,
+    cantidad_devuelta INT,
+    precio_unitario DECIMAL(10 , 2 ),
+	PRIMARY KEY(id_reclamo)
+);
+
+-- REFERENCIAS -- 
+-- VENTAS
+ALTER TABLE
+ventas
+ADD CONSTRAINT fk_constraint_id_comercial
+FOREIGN KEY 
+(id_comercial) REFERENCES agentes_comerciales(id_comercial);
+ALTER TABLE
+ventas
+ADD CONSTRAINT fk_constraint_id_tipos_venta
+FOREIGN KEY 
+(id_tipos_venta) REFERENCES tipos_venta(id_tipos_venta);
+
+ALTER TABLE
+ventas
+ADD CONSTRAINT fk_constraint_id_envio
+FOREIGN KEY 
+(id_envio) REFERENCES envio_productos(id_envio);
+
+ALTER TABLE
+ventas
+ADD CONSTRAINT fk_constraint_id_formas_pago
+FOREIGN KEY 
+(id_formas_pago) REFERENCES formas_de_pago(id_formas_pago);
+
+ALTER TABLE
+ventas
+ADD CONSTRAINT fk_constraint_id_cliente
+FOREIGN KEY 
+(id_cliente) REFERENCES clientes(id_cliente);
+-- TABLA COMPRAS
+ALTER TABLE
+compras
+ADD CONSTRAINT fk_constraint_id_proveedores
+FOREIGN KEY 
+(id_proveedores) REFERENCES proveedores(id_proveedores);    
+-- DETALLE VENTAS
+ALTER TABLE
+detalle_ventas
+ADD CONSTRAINT fk_constraint_id_producto
+FOREIGN KEY 
+(id_producto) REFERENCES productos(id_producto);
+
+ALTER TABLE
+detalle_ventas
+ADD CONSTRAINT fk_constraint_id_venta
+FOREIGN KEY 
+(id_venta) REFERENCES ventas(id_venta);
+
+-- DETALLE COMPRAS
+ALTER TABLE
+detalle_compras
+ADD CONSTRAINT fk_constraint_id_producto_detcompras
+FOREIGN KEY 
+(id_producto) REFERENCES productos(id_producto);
+
+ALTER TABLE
+detalle_compras
+ADD CONSTRAINT fk_constraint_id_compra
+FOREIGN KEY 
+(id_compra) REFERENCES compras(id_compra);
+
+-- SERVICIO POST VENTA
+ALTER TABLE
+servicio_postventa
+ADD CONSTRAINT fk_constraint_id_producto_servpostventa
+FOREIGN KEY 
+(id_producto) REFERENCES productos(id_producto);
