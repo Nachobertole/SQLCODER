@@ -1,3 +1,7 @@
+## DER ONTOLOGICO DE DISTRIBUIDORA
+![alt text](image-1.png)
+## DER WORKBENCH
+![alt text](image.png)
 # SQLCODER
 # Base de Datos: DISTRIBUIDORA
 
