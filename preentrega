@@ -167,3 +167,463 @@ servicio_postventa
 ADD CONSTRAINT fk_constraint_id_producto_servpostventa
 FOREIGN KEY 
 (id_producto) REFERENCES productos(id_producto);
+
+USE DISTRIBUIDORA;
+-- Insertar datos en la tabla proveedores
+INSERT INTO proveedores (nombre_pr, direccion_pr, documento_identidad_pr, email_pr) VALUES
+('Bebidas del Valle S.A.', 'Av. Libertador 3450, Buenos Aires', '30-12345678-9', 'ventas@bebidasdelvalle.com.ar'),
+('Agua Pura S.A.', 'Ruta 40 Km 50, Mendoza', '20-23456789-0', 'contacto@aguapura.com.ar'),
+('Cerveza Artesanal Patagonia', 'Calle del Sol 1100, Neuquén', '27-34567890-1', 'ventas@patagonia.com.ar'),
+('Fábrica de Jugos del Sur', 'Calle de la Industria 1200, Córdoba', '20-45678901-2', 'ventas@jugosdelsur.com.ar'),
+('Distribuidora Rio de la Plata', 'Calle Rivadavia 7000, Buenos Aires', '30-56789012-3', 'contacto@riodelaplata.com.ar');
+
+-- Insertar datos en la tabla formas_de_pago
+INSERT INTO formas_de_pago (formas_de_pago) VALUES
+('CONTADO'),
+('CUENTA CORRIENTE'),
+('FINANCIADO');
+
+-- Insertar datos en la tabla tipos_venta
+INSERT INTO tipos_venta (tipos_venta) VALUES
+('PRESENCIAL'),
+('CONTACTOS COMERCIALES');
+
+-- Insertar datos en la tabla agentes_comerciales
+INSERT INTO agentes_comerciales (nombre_comercial, zona_asignada) VALUES
+('Carlos Méndez', 'Zona Norte'),
+('María López', 'Zona Oeste'),
+('Pedro González', 'Zona Sur'),
+('Lucía Fernández', 'Zona Centro'),
+('Raúl Martínez', 'Zona Este');
+
+-- Insertar datos en la tabla productos
+INSERT INTO productos (nombre_producto, detalle_producto, cantidad_stock) VALUES
+('Coca-Cola 2L', 'Refresco gaseoso sabor cola', 500),
+('Pepsi 1L', 'Refresco gaseoso sabor cola', 400),
+('Agua Mineral 500ml', 'Agua mineral de manantial', 300),
+('Cerveza Patagonia 500ml', 'Cerveza artesanal Patagonia', 200),
+('Jugo Natural de Naranja 1L', 'Jugo de naranja natural, sin conservantes', 350);
+
+-- Insertar datos en la tabla clientes
+INSERT INTO clientes (nombre_cliente, direccion, documento_identidad, email) VALUES
+('Supermercado Ahorro', 'Av. Siempre Viva 123, Buenos Aires', '20-12345678-9', 'contacto@supermercadoahorro.com.ar'),
+('Restaurante El Buen Sabor', 'Calle Falsa 456, Córdoba', '20-23456789-0', 'ventas@restaurantebuenosabor.com.ar'),
+('Bodega La Reposada', 'Ruta 60, Mendoza', '20-34567890-1', 'ventas@bodegareposada.com.ar'),
+('Distribuidora El Sol', 'Calle Sol 789, Rosario', '20-45678901-2', 'contacto@distribuidoraelsol.com.ar'),
+('Club de Amigos del Vino', 'Calle del Vino 900, Mendoza', '20-56789012-3', 'contacto@clubdelvino.com.ar');
+
+-- Insertar datos en la tabla envio_productos
+INSERT INTO envio_productos (transporte, codigo_seguimiento, fecha_envio, fecha_entrega) VALUES
+('Transportes Rápidos S.A.', 'TR123456', '2024-10-05', '2024-10-06'),
+('Logística Express', 'LE234567', '2024-10-06', '2024-10-07'),
+('Envios del Sur', 'ES345678', '2024-10-07', '2024-10-08'),
+('Transporte Seguro', 'TS456789', '2024-10-08', '2024-10-09'),
+('Logística Total', 'LT567890', '2024-10-09', '2024-10-10');
+
+-- Insertar datos en la tabla compras
+INSERT INTO compras (id_proveedores, fecha_compra, preciototal_compra, detalle_compra) VALUES
+(1, '2024-10-05', 2500.00, 'Compra de 500 Coca-Cola 2L'),
+(2, '2024-10-06', 1800.00, 'Compra de 400 Pepsi 1L'),
+(3, '2024-10-07', 2500.00, 'Compra de 200 Cerveza Patagonia 500ml'),
+(4, '2024-10-08', 1400.00, 'Compra de 350 Jugos Naturales de Naranja 1L'),
+(5, '2024-10-09', 1200.00, 'Compra de 300 Agua Mineral 500ml');
+
+-- Insertar datos en la tabla ventas
+INSERT INTO ventas (fecha_venta, id_comercial, id_tipos_venta, id_envio, id_formas_pago, id_cliente) VALUES
+('2024-10-06', 1, 1, 1, 1, 1),
+('2024-10-07', 2, 2, 2, 2, 2),
+('2024-10-08', 3, 1, 3, 3, 3),
+('2024-10-09', 4, 2, 4, 1, 4),
+('2024-10-10', 5, 1, 5, 2, 5);
+
+-- Insertar datos en la tabla detalle_ventas
+INSERT INTO detalle_ventas (id_producto, id_venta, cantidad_venta, precio_unitario) VALUES
+(1, 1, 50, 150.00),
+(2, 1, 30, 200.00),
+(3, 2, 100, 50.00),
+(4, 2, 20, 500.00),
+(5, 3, 10, 300.00),
+(1, 4, 70, 150.00),
+(2, 5, 40, 200.00),
+(3, 5, 150, 50.00),
+(4, 3, 5, 500.00),
+(5, 4, 15, 300.00);
+
+-- Insertar datos en la tabla detalle_compras
+INSERT INTO detalle_compras (id_producto, id_compra, cantidad_compra, precio_unitario) VALUES
+(1, 1, 500, 5.00),
+(2, 2, 400, 4.50),
+(3, 3, 200, 12.50),
+(4, 4, 350, 10.00),
+(5, 5, 300, 4.00);
+
+-- Insertar datos en la tabla servicio_postventa
+INSERT INTO servicio_postventa (detalle_reclamo, resolucion_reclamo, id_producto, cantidad_devuelta, precio_unitario) VALUES
+('Envase dañado', 'Reemplazo sin cargo', 1, 10, 150.00),
+('Producto vencido', 'Devolución de dinero', 2, 5, 200.00),
+('Falta de stock en la entrega', 'Reemplazo de producto', 3, 20, 50.00),
+('Cerveza en mal estado', 'Devolución de dinero', 4, 10, 500.00),
+('Jugo en mal estado', 'Reemplazo sin cargo', 5, 15, 300.00);
+
+-- Insertar datos en la tabla compras
+INSERT INTO compras (id_proveedores, fecha_compra, preciototal_compra, detalle_compra) VALUES
+(1, '2024-10-05', 2500.00, 'Compra de 500 Coca-Cola 2L'),
+(2, '2024-10-06', 1800.00, 'Compra de 400 Pepsi 1L'),
+(3, '2024-10-07', 2500.00, 'Compra de 200 Cerveza Patagonia 500ml'),
+(4, '2024-10-08', 1400.00, 'Compra de 350 Jugos Naturales de Naranja 1L'),
+(5, '2024-10-09', 1200.00, 'Compra de 300 Agua Mineral 500ml'),
+(1, '2024-10-10', 5000.00, 'Compra de 1000 Coca-Cola 2L'),
+(2, '2024-10-11', 3600.00, 'Compra de 600 Pepsi 1L'),
+(3, '2024-10-12', 4000.00, 'Compra de 400 Cerveza Patagonia 500ml'),
+(4, '2024-10-13', 2800.00, 'Compra de 500 Jugos Naturales de Naranja 1L'),
+(5, '2024-10-14', 2400.00, 'Compra de 400 Agua Mineral 500ml'),
+(1, '2024-10-15', 6000.00, 'Compra de 1200 Coca-Cola 2L'),
+(2, '2024-10-16', 4500.00, 'Compra de 750 Pepsi 1L'),
+(3, '2024-10-17', 5000.00, 'Compra de 500 Cerveza Patagonia 500ml'),
+(4, '2024-10-18', 3500.00, 'Compra de 600 Jugos Naturales de Naranja 1L'),
+(5, '2024-10-19', 3000.00, 'Compra de 500 Agua Mineral 500ml'),
+(1, '2024-10-20', 7000.00, 'Compra de 1400 Coca-Cola 2L'),
+(2, '2024-10-21', 5400.00, 'Compra de 900 Pepsi 1L'),
+(3, '2024-10-22', 6000.00, 'Compra de 600 Cerveza Patagonia 500ml'),
+(4, '2024-10-23', 4200.00, 'Compra de 700 Jugos Naturales de Naranja 1L'),
+(5, '2024-10-24', 3600.00, 'Compra de 600 Agua Mineral 500ml'),
+(1, '2024-10-25', 8000.00, 'Compra de 1600 Coca-Cola 2L'),
+(2, '2024-10-26', 6300.00, 'Compra de 1050 Pepsi 1L'),
+(3, '2024-10-27', 7000.00, 'Compra de 700 Cerveza Patagonia 500ml'),
+(4, '2024-10-28', 4900.00, 'Compra de 800 Jugos Naturales de Naranja 1L'),
+(5, '2024-10-29', 4200.00, 'Compra de 700 Agua Mineral 500ml'),
+(1, '2024-10-30', 9000.00, 'Compra de 1800 Coca-Cola 2L'),
+(2, '2024-10-31', 7200.00, 'Compra de 1200 Pepsi 1L'),
+(3, '2024-11-01', 8000.00, 'Compra de 800 Cerveza Patagonia 500ml'),
+(4, '2024-11-02', 5600.00, 'Compra de 900 Jugos Naturales de Naranja 1L'),
+(5, '2024-11-03', 4800.00, 'Compra de 800 Agua Mineral 500ml'),
+(1, '2024-11-04', 10000.00, 'Compra de 2000 Coca-Cola 2L'),
+(2, '2024-11-05', 8100.00, 'Compra de 1350 Pepsi 1L'),
+(3, '2024-11-06', 9000.00, 'Compra de 900 Cerveza Patagonia 500ml'),
+(4, '2024-11-07', 6300.00, 'Compra de 1050 Jugos Naturales de Naranja 1L'),
+(5, '2024-11-08', 5400.00, 'Compra de 900 Agua Mineral 500ml'),
+(1, '2024-11-09', 11000.00, 'Compra de 2200 Coca-Cola 2L'),
+(2, '2024-11-10', 9000.00, 'Compra de 1500 Pepsi 1L'),
+(3, '2024-11-11', 10000.00, 'Compra de 1000 Cerveza Patagonia 500ml'),
+(4, '2024-11-12', 7000.00, 'Compra de 1200 Jugos Naturales de Naranja 1L'),
+(5, '2024-11-13', 6000.00, 'Compra de 1000 Agua Mineral 500ml');
+
+-- Insertar datos en la tabla detalle_compras
+INSERT INTO detalle_compras (id_producto, id_compra, cantidad_compra, precio_unitario) VALUES
+(1, 1, 500, 5.00),
+(2, 2, 400, 4.50),
+(3, 3, 200, 12.50),
+(4, 4, 350, 10.00),
+(5, 5, 300, 4.00),
+(1, 6, 1000, 5.00),
+(2, 7, 600, 4.50),
+(3, 8, 400, 12.50),
+(4, 9, 500, 10.00),
+(5, 10, 400, 4.00),
+(1, 11, 1200, 5.00),
+(2, 12, 750, 4.50),
+(3, 13, 500, 12.50),
+(4, 14, 600, 10.00),
+(5, 15, 500, 4.00),
+(1, 16, 1400, 5.00),
+(2, 17, 900, 4.50),
+(3, 18, 600, 12.50),
+(4, 19, 700, 10.00),
+(5, 20, 600, 4.00),
+(1, 21, 1600, 5.00),
+(2, 22, 1050, 4.50),
+(3, 23, 700, 12.50),
+(4, 24, 800, 10.00),
+(5, 25, 700, 4.00),
+(1, 26, 1800, 5.00),
+(2, 27, 1200, 4.50),
+(3, 28, 800, 12.50),
+(4, 29, 900, 10.00),
+(5, 30, 800, 4.00),
+(1, 31, 2000, 5.00),
+(2, 32, 1350, 4.50),
+(3, 33, 900, 12.50),
+(4, 34, 1000, 10.00),
+(5, 35, 900, 4.00),
+(1, 36, 2200, 5.00),
+(2, 37, 1500, 4.50),
+(3, 38, 1000, 12.50),
+(4, 39, 1200, 10.00),
+(5, 40, 1000, 4.00);
+
+-- Insertar datos en la tabla ventas
+INSERT INTO ventas (fecha_venta, id_comercial, id_tipos_venta, id_envio, id_formas_pago, id_cliente) VALUES
+('2024-10-06', 1, 1, 1, 1, 1),
+('2024-10-07', 2, 2, 2, 2, 2),
+('2024-10-08', 3, 1, 3, 3, 3),
+('2024-10-09', 4, 2, 4, 1, 4),
+('2024-10-10', 5, 1, 5, 2, 5),
+('2024-10-11', 1, 1, 1, 1, 1),
+('2024-10-12', 2, 2, 2, 2, 2),
+('2024-10-13', 3, 1, 3, 3, 3),
+('2024-10-14', 4, 2, 4, 1, 4),
+('2024-10-15', 5, 1, 5, 2, 5),
+('2024-10-16', 1, 1, 1, 1, 1),
+('2024-10-17', 2, 2, 2, 2, 2),
+('2024-10-18', 3, 1, 3, 3, 3),
+('2024-10-19', 4, 2, 4, 1, 4),
+('2024-10-20', 5, 1, 5, 2, 5),
+('2024-10-21', 1, 1, 1, 1, 1),
+('2024-10-22', 2, 2, 1, 2, 2),
+('2024-10-23', 3, 1, 2, 3, 3),
+('2024-10-24', 4, 2, 3, 1, 4),
+('2024-10-25', 5, 1, 4, 2, 5),
+('2024-10-26', 1, 1, 5, 1, 1),
+('2024-10-27', 2, 2, 2, 2, 2),
+('2024-10-28', 3, 1, 3, 3, 3),
+('2024-10-29', 4, 2, 4, 1, 4),
+('2024-10-30', 5, 1, 5, 2, 5),
+('2024-10-31', 1, 1, 1, 1, 1),
+('2024-11-01', 2, 2, 2, 2, 2),
+('2024-11-02', 3, 1, 3, 3, 3),
+('2024-11-03', 4, 2, 4, 1, 4),
+('2024-11-04', 5, 1, 5, 2, 5),
+('2024-11-05', 1, 1,  1, 1, 1),
+('2024-11-06', 2, 2,  2, 2, 2),
+('2024-11-07', 3, 1,  3, 3, 3),
+('2024-11-08', 4, 2,  4, 1, 4),
+('2024-11-09', 5, 1,  5, 2, 5);
+
+SELECT * FROM distribuidora.detalle_ventas;
+
+-- Insertar datos en la tabla detalle_ventas
+INSERT INTO detalle_ventas (id_producto, id_venta, cantidad_venta, precio_unitario) VALUES
+(1, 41, 50, 150.00),
+(2, 42, 30, 200.00),
+(3, 43, 100, 50.00),
+(4, 44, 20, 500.00),
+(5, 45, 10, 300.00),
+(1, 46, 100, 150.00),
+(2, 47, 60, 200.00),
+(3, 48, 40, 50.00),
+(4, 49, 50, 500.00),
+(5, 50, 30, 300.00),
+(1, 51, 120, 150.00),
+(2, 52, 75, 200.00),
+(3, 53, 50, 50.00),
+(4, 54, 60, 500.00),
+(5, 55, 40, 300.00),
+(1, 56, 140, 150.00),
+(2, 57, 90, 200.00),
+(3, 58, 60, 50.00),
+(4, 59, 70, 500.00),
+(5, 60, 50, 300.00),
+(1, 61, 160, 150.00),
+(2, 62, 105, 200.00),
+(3, 63, 70, 50.00),
+(4, 64, 80, 500.00),
+(5, 65, 60, 300.00),
+(1, 66, 180, 150.00),
+(2, 67, 120, 200.00),
+(3, 68, 80, 50.00),
+(4, 69, 90, 500.00),
+(5, 70, 70, 300.00),
+(1, 71, 200, 150.00),
+(2, 72, 135, 200.00),
+(3, 73, 90, 50.00),
+(4, 74, 100, 500.00),
+(5, 75, 80, 300.00);
+
+DELIMITER //
+
+CREATE FUNCTION total_ventas_producto(id_producto INT) 
+RETURNS DECIMAL(20,2)
+DETERMINISTIC
+BEGIN
+    DECLARE total DECIMAL(20,2);
+    SELECT SUM(cantidad_venta * precio_unitario) 
+    INTO total
+    FROM detalle_ventas
+    WHERE id_producto = id_producto;
+    RETURN total;
+END //
+
+DELIMITER ;
+
+-- Funcion para calcular las compras realizadas a un proveedor
+DELIMITER //
+
+CREATE FUNCTION total_compras_proveedor(id_proveedor INT) 
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    DECLARE total DECIMAL(10,2);
+    SELECT SUM(preciototal_compra)
+    INTO total
+    FROM compras
+    WHERE id_proveedores = id_proveedor;
+    RETURN total;
+END //
+
+DELIMITER ;
+
+-- funcion para calcular las ventas realizadas por un comercial
+
+DELIMITER //
+
+CREATE FUNCTION total_ventas_comercial(id_comercial INT)
+RETURNS DECIMAL(10,2)
+DETERMINISTIC
+BEGIN
+    DECLARE total DECIMAL(10,2);
+    SELECT SUM(detalle_ventas.cantidad_venta * detalle_ventas.precio_unitario)
+    INTO total
+    FROM ventas
+    INNER JOIN detalle_ventas ON ventas.id_venta = detalle_ventas.id_venta
+    WHERE ventas.id_comercial = id_comercial;
+    RETURN total;
+END // 
+
+DELIMITER ;
+
+SELECT total_ventas_comercial (1) AS VentaTotalPorVendedor;
+SELECT total_ventas_producto (2) AS VentaProducto;
+
+-- funcion para calcular stock disponible
+DELIMITER //
+
+CREATE FUNCTION stock_disponible(id_producto INT) 
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE stock INT;
+
+    -- Calcular la cantidad de compras realizadas de este producto
+    SELECT IFNULL(SUM(detalle_compras.cantidad_compra), 0)
+    INTO stock
+    FROM detalle_compras
+    WHERE detalle_compras.id_producto = id_producto;
+
+    -- Restar las ventas realizadas de este producto
+    SELECT stock - IFNULL(SUM(detalle_ventas.cantidad_venta), 0)
+    INTO stock
+    FROM detalle_ventas
+    WHERE detalle_ventas.id_producto = id_producto;
+
+    RETURN stock;
+END //
+
+DELIMITER ;
+
+SELECT stock_disponible (1);
+
+
+-- Procedimiento para obtener reportes de ventas  
+DELIMITER //
+
+CREATE PROCEDURE reporte_ventas(
+    IN fecha_inicio DATE,
+    IN fecha_fin DATE
+)
+BEGIN
+    SELECT v.id_venta, v.fecha_venta, c.nombre_cliente, SUM(dv.cantidad_venta * dv.precio_unitario) AS total_venta
+    FROM ventas v
+    JOIN detalle_ventas dv ON v.id_venta = dv.id_venta
+    JOIN clientes c ON v.id_cliente = c.id_cliente
+    WHERE v.fecha_venta BETWEEN fecha_inicio AND fecha_fin
+    GROUP BY v.id_venta, v.fecha_venta, c.nombre_cliente
+    ORDER BY v.fecha_venta;
+END //
+
+DELIMITER ;
+
+CALL reporte_ventas('2024-11-01', '2024-11-30');
+
+
+-- REPORTE PARA OBTENER EL STOCK DEL LISTADO DE PRODUCTOS
+DELIMITER //
+
+CREATE PROCEDURE reporte_stock()
+BEGIN
+    SELECT p.nombre_producto, 
+           p.cantidad_stock - IFNULL(SUM(dv.cantidad_venta), 0) + IFNULL(SUM(dc.cantidad_compra), 0) AS stock_disponible
+    FROM productos p
+    LEFT JOIN detalle_ventas dv ON p.id_producto = dv.id_producto
+    LEFT JOIN detalle_compras dc ON p.id_producto = dc.id_producto
+    GROUP BY p.id_producto, p.nombre_producto;
+END //
+
+DELIMITER ;
+CALL reporte_stock();
+
+-- VISTA PARA CONOCER EL MOTIVO DE LAS DEVOLUCIONES Y SU RESOLUCIÓN
+CREATE VIEW resumen_servicio_postventa AS
+SELECT 
+    sp.id_reclamo, 
+    sp.detalle_reclamo, 
+    sp.resolucion_reclamo, 
+    sp.id_producto, 
+    sp.cantidad_devuelta, 
+    sp.precio_unitario, 
+    p.nombre_producto
+FROM 
+    servicio_postventa sp
+JOIN 
+    productos p ON sp.id_producto = p.id_producto;
+    
+SELECT * FROM resumen_servicio_postventa;
+
+-- VISTA PARA CALCULAR LAS VENTAS POR DIA
+CREATE VIEW ventas_diarias AS
+SELECT 
+    DATE(v.fecha_venta) AS fecha, 
+    SUM(dv.cantidad_venta * dv.precio_unitario) AS total_diario
+FROM 
+    ventas v
+JOIN 
+    detalle_ventas dv ON v.id_venta = dv.id_venta
+GROUP BY 
+    DATE(v.fecha_venta);
+    
+SELECT * FROM ventas_diarias;
+
+-- TRIGGER PARA SABER EL TOTAL DE LA VENTA 
+
+DELIMITER //
+
+CREATE TRIGGER actualizar_total_venta
+AFTER INSERT ON detalle_ventas
+FOR EACH ROW
+BEGIN
+    DECLARE total_venta DECIMAL(10,2);
+    
+    -- Calcular el total de la venta
+    SELECT SUM(dv.cantidad_venta * dv.precio_unitario)
+    INTO total_venta
+    FROM detalle_ventas dv
+    WHERE dv.id_venta = NEW.id_venta;
+    
+    -- Actualizar el total de la venta
+    UPDATE ventas
+    SET preciototal_venta = total_venta
+    WHERE id_venta = NEW.id_venta;
+END //
+
+DELIMITER ;
+
+-- Trigger para Verificar el Stock antes de Registrar una Venta
+
+DELIMITER //
+
+CREATE TRIGGER verificar_stock_venta
+BEFORE INSERT ON detalle_ventas
+FOR EACH ROW
+BEGIN
+    -- Verificar si hay suficiente stock para la venta
+    DECLARE stock_disponible INT;
+    
+    SELECT cantidad_stock INTO stock_disponible
+    FROM productos
+    WHERE id_producto = NEW.id_producto;
+    
+    IF stock_disponible < NEW.cantidad_venta THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'No hay suficiente stock para la venta';
+    END IF;
+END //
+
+DELIMITER ;
